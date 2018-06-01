@@ -1,18 +1,25 @@
+#!/usr/bin/python3
+
 import sys
-from PyQt5 import QtCore, QtGui, uic
 
-qtCreatorFile = "" # Enter file here.
+from PyQt5.QtCore import pyqtSlot
+from PyQt5.QtWidgets import QApplication, QDialog
+from PyQt5.uic import loadUi
 
-Ui_MainWindow, QtBaseClass = uic.loadUiType(qtCreatorFile)
 
-class MyApp(QtGui.QMainWindow, Ui_MainWindow):
-    def __init__(self):
-        QtGui.QMainWindow.__init__(self)
-        Ui_MainWindow.__init__(self)
-        self.setupUi(self)
+class DemoImpl(QDialog):
+    def __init__(self, *args):
+        super(DemoImpl, self).__init__(*args)
 
-if __name__ == "__main__":
-    app = QtGui.QApplication(sys.argv)
-    window = MyApp()
-    window.show()
-    sys.exit(app.exec_())
+        loadUi('firstgui.ui', self)
+
+    @pyqtSlot()
+    def on_button1_clicked(self):
+        for s in "This is a demo".split(" "):
+            self.list.addItem(s)
+
+
+app = QApplication(sys.argv)
+widget = DemoImpl()
+widget.show()
+sys.exit(app.exec_())
